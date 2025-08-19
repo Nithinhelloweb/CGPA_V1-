@@ -73,58 +73,67 @@ function populateSubjects() {
   });
 }
 
+async function updateDisplay() {
+  const batch = document.getElementById("batch")?.value;
+  if (!batch) {
+    showCustomAlert("Please select a batch before calculating SGPA.");
+    return;
+  }
 
-    async function updateDisplay() {
-      const batch = document.getElementById("batch")?.value;
-      if (!batch) {
-        showCustomAlert("Please select a batch before calculating SGPA.");
-        return;
-      }
+  const username = document.getElementById("username").value.trim();
+  if (username.length !== 12) {
+    showCustomAlert("Enter a valid 12-digit register number");
+    return;
+  }
 
-      const username = document.getElementById("username").value.trim();
-      if (username.length !== 12) {
-        showCustomAlert("Enter a valid 12-digit register number");
-        return;
-      }
+  const formValid = [...document.querySelectorAll("select")].every(select => select.checkValidity());
+  if (!formValid) {
+    document.querySelector("select:invalid").reportValidity();
+    return;
+  }
 
-      const formValid = [...document.querySelectorAll("select")].every(select => select.checkValidity());
-      if (!formValid) {
-        document.querySelector("select:invalid").reportValidity();
-        return;
-      }
+  let totalCredits = 0;
+  let weightedGradeSum = 0;
+  let grades = {};
 
-      let totalCredits = 0;
-      let weightedGradeSum = 0;
-      let grades = {};
+  subjects.forEach(subject => {
+    const grade = parseInt(document.getElementById(subject._id).value);
 
-      subjects.forEach(subject => {
-        const grade = parseInt(document.getElementById(subject._id).value);
-        weightedGradeSum += grade * subject.credit;
-        totalCredits += subject.credit;
-        grades[subject.label] = grade;
-      });
-
-      const cgpa = (weightedGradeSum / totalCredits).toFixed(3);
-      document.getElementById("output").textContent = `Your SGPA is: ${cgpa}`;
-
-      const title = document.title;
-
-      try {
-        const response = await fetch('/submit-cgpa', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title, username, grades, cgpa })
-        });
-
-        const data = await response.json();
-        showCustomAlert(data.message);
-      } catch (error) {
-        showCustomAlert("Error submitting data. Try again.");
-        console.error(error);
-      }
-
-      window.cgpaCalculated = cgpa;
+    if (grade > 0) {
+      weightedGradeSum += grade * subject.credit;
+      totalCredits += subject.credit;
     }
+
+    grades[subject.label] = grade;
+  });
+
+  if (totalCredits === 0) {
+    showCustomAlert("SGPA cannot be calculated (all subjects failed).");
+    return;
+  }
+
+  const cgpa = (weightedGradeSum / totalCredits).toFixed(3);
+  document.getElementById("output").textContent = `Your SGPA is: ${cgpa}`;
+
+  const title = document.title;
+
+  try {
+    const response = await fetch('/submit-cgpa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, username, grades, cgpa })
+    });
+
+    const data = await response.json();
+    showCustomAlert(data.message);
+  } catch (error) {
+    showCustomAlert("Error submitting data. Try again.");
+    console.error(error);
+  }
+
+  window.cgpaCalculated = cgpa;
+}
+
 
 function showCustomAlert(message) {
   document.getElementById('customAlertMessage').innerText = message;
