@@ -230,21 +230,30 @@ async function downloadFancyPDF() {
   const semesterLabel = `Semester: ${semester}`;
   const deptLabel = `Department: ${dept}`;
 
-  // Build subject rows
+  // Build subject rows with "-" for U subjects
   const tableData = subjects.map(subject => {
     const select = document.getElementById(subject._id);
     const gradePoint = select.value;
     const gradeText = select.options[select.selectedIndex].text;
+
+    // If grade is U (0), display "-" instead of credit
+    const displayCredit = gradePoint === "0" ? "-" : subject.credit;
+
     return [
       subject.label,
       gradeText,
       gradePoint,
-      subject.credit
+      displayCredit
     ];
   });
 
-  // Calculate and add Total Credits row (new)
-  const totalCredits = subjects.reduce((sum, s) => sum + s.credit, 0);
+  // Calculate total credits excluding "U" subjects
+  const totalCredits = subjects.reduce((sum, s) => {
+    const val = document.getElementById(s._id).value;
+    return val !== "0" ? sum + s.credit : sum;
+  }, 0);
+
+  // Add Total Credits row
   tableData.push([
     { content: 'Total Credits', colSpan: 3, styles: { halign: 'right', fontStyle: 'bold' } },
     { content: totalCredits.toString(), styles: { fontStyle: 'bold' } }
@@ -264,9 +273,9 @@ async function downloadFancyPDF() {
   if (logoBase64) doc.addImage(logoBase64, 'PNG', 10, 10, 20, 20);
   if (logo1Base64) doc.addImage(logo1Base64, 'PNG', 180, 10, 20, 20);
   if (watermarkBase64) {
-    doc.setGState(new doc.GState({opacity: 0.12}));
+    doc.setGState(new doc.GState({ opacity: 0.12 }));
     doc.addImage(watermarkBase64, 'PNG', 44, 80, 120, 140); //(x,y,height,width)
-    doc.setGState(new doc.GState({opacity: 1}));
+    doc.setGState(new doc.GState({ opacity: 1 }));
   }
 
   // College Title and Info
@@ -280,51 +289,31 @@ async function downloadFancyPDF() {
   doc.text(semesterLabel, 105, 52, { align: "center" });
   doc.text(`Register Number: ${username}`, 105, 59, { align: "center" });
 
-  // Table with Total Credits
-  // doc.autoTable({
-  //   startY: 69,
-  //   head: [['Subject', 'Grade (Letter)', 'Grade (Point)', 'Credit']],
-  //   body: tableData,
-  //   theme: 'grid',
-  //   headStyles: {
-  //     fillColor: [82, 236, 31],
-  //     textColor: 0,
-  //     fontStyle: 'bold',
-  //     lineWidth: 0.5,
-  //     lineColor: [0, 0, 0]
-  //   },
-  //   bodyStyles: {
-  //     lineWidth: 0.5,
-  //     lineColor: [0, 0, 0]
-  //   },
-  //   styles: {
-  //     fontSize: 10,
-  //     textColor: [0, 0, 0]
-  //   }
-  // });
-doc.autoTable({
-  startY: 69,
-  head: [['Subject', 'Grade (Letter)', 'Grade (Point)', 'Credit']],
-  body: tableData,
-  theme: 'grid',
-  headStyles: {
-    fillColor: [82, 236, 31],     // No fill for the header (transparent)
-    textColor: 0,
-    fontStyle: 'bold',
-    lineWidth: 0.5,
-    lineColor: [0, 0, 0]
-  },
-  bodyStyles: {
-    fillColor: undefined,     // No fill for body rows (transparent)
-    lineWidth: 0.5,
-    lineColor: [0, 0, 0]
-  },
-  styles: {
-    fontSize: 10,
-    textColor: [0, 0, 0],
-    fillColor: undefined      // Default: transparent
-  }
-});
+  // Table with subjects and credits
+  doc.autoTable({
+    startY: 69,
+    head: [['Subject', 'Grade (Letter)', 'Grade (Point)', 'Credit']],
+    body: tableData,
+    theme: 'grid',
+    headStyles: {
+      fillColor: [82, 236, 31],
+      textColor: 0,
+      fontStyle: 'bold',
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0]
+    },
+    bodyStyles: {
+      fillColor: undefined,
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0]
+    },
+    styles: {
+      fontSize: 10,
+      textColor: [0, 0, 0],
+      fillColor: undefined
+    }
+  });
+
   // Final SGPA
   const finalY = doc.lastAutoTable.finalY + 10;
   doc.setFontSize(17);
