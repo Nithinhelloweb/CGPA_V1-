@@ -151,7 +151,7 @@
             margin: 20px;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: auto;
         }
 
         #calculator {
@@ -198,7 +198,6 @@
         @media only screen and (max-width: 600px) {
             body {
                 margin: 5px;
-                height: auto;
             }
 
             .header-text {
@@ -209,10 +208,6 @@
                 padding: 2px;
                 border-radius: 10px;
                 font-size: small;
-            }
-
-            #icon {
-                margin: 10px;
             }
 
             #calculator {
@@ -232,10 +227,6 @@
         }
 
         @media only screen and (min-width: 600px) and (max-width: 788px) {
-            #icon {
-                margin: 10px;
-            }
-
             #calculator {
                 width: 80%;
                 padding: 15px 10px;
@@ -248,11 +239,6 @@
         }
 
         @media only screen and (min-width: 789px) and (max-width: 910px) {
-            #icon {
-                margin: auto;
-                margin-left: 30px;
-            }
-
             #calculator {
                 width: 80%;
                 padding: 15px 10px;
@@ -265,11 +251,6 @@
         }
 
         @media only screen and (min-width: 910px) {
-            #icon {
-                margin: auto;
-                margin-left: 30px;
-            }
-
             #calculator {
                 width: 70%;
                 padding: 20px 10px;
@@ -289,6 +270,89 @@
         <p class="header-text"><b>SRI SHAKTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY</b></p>
         <img src="/images/Naac logo" alt="Naac" class="logo">
     </header>
+
+    <!-- New Version Banner -->
+    <style>
+        .version-banner {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            padding: 12px 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border-radius: 0 0 15px 15px;
+            animation: slideDown 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            z-index: 100;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .banner-text {
+            color: #004400;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 0;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .switch-btn {
+            background-color: #008000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+            border: 2px solid transparent;
+        }
+
+        .switch-btn:hover {
+            background-color: #ffffff;
+            color: #008000;
+            border-color: #008000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 128, 0, 0.3);
+        }
+
+        @media only screen and (max-width: 600px) {
+            .version-banner {
+                flex-direction: column;
+                gap: 12px;
+                padding: 15px 10px;
+                margin-bottom: 15px;
+            }
+
+            .banner-text {
+                font-size: 1rem;
+            }
+
+            .switch-btn {
+                width: 80%;
+                text-align: center;
+            }
+        }
+    </style>
+    <div class="version-banner">
+        <p class="banner-text">🚀 A more powerful CGPA Calculator is now live!</p>
+        <a href="https://cgpa-rv1.onrender.com/" class="switch-btn">TRY NEW VERSION</a>
+    </div>
+
     <nav>
         <div id="datecal">
             <p id="date" class="date"><b></b></p><br><br>
@@ -311,8 +375,8 @@
                     </span>
                 </div>
             </div>
+        </ul>
     </div>
-    </ul>
 
     <div id="calculator">
         <a class="button" href="/21regulation/home.html" target="_self">Calculate</a>
@@ -334,173 +398,27 @@
                     </span>
                 </div>
             </div>
+        </ul>
     </div>
-    </ul>
+
     <div id="calculator">
         <a class="button" href="/21regulation/cgpa/cgpa.html" target="_self">Calculate</a>
     </div><br>
-    <!-- <div id="calculator">
-        <a class="button" href="/developer.html" target="_blank">
-            <img src="/images/developer_logo.png" alt="Developer Info" style="width: 30px; height: 30px;"/><p>Developer Info</p></a>
-    </div><br> -->
+
     <div id="calculator">
         <a class="button" href="/developer.html" target="_blank">Developer Info</a>
     </div>
+
     <footer style="position: relative;">
         <p style="display: inline-block;">© 2025 SIET. All Rights Reserved.</p>
         <a href="developer.html" target="_blank" style="position: absolute; right: 12px; top: 10px;">
             <img src="/images/developer_logo.png" alt="Developer Info" style="width: 30px; height: 30px;" />
         </a>
     </footer>
+
     <script>
         const options = { day: '2-digit', month: 'short', year: 'numeric' };
         document.getElementById("date").innerText = new Date().toLocaleDateString("en-GB", options);
-    </script>
-
-    <!-- Launch Timer Overlay -->
-    <style>
-        #launch-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            text-align: center;
-            transition: opacity 1s ease-out;
-        }
-
-        #launch-timer {
-            font-size: 3rem;
-            margin: 20px;
-            font-weight: bold;
-            text-shadow: 0 0 10px #00ff00;
-        }
-
-        .launch-message {
-            font-size: 1.5rem;
-            max-width: 80%;
-            line-height: 1.5;
-        }
-
-        #launch-enter-btn {
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            background-color: #00ff00;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: none;
-            /* Hidden by default */
-            font-weight: bold;
-            box-shadow: 0 0 15px #00ff00;
-        }
-
-        #launch-switch-btn {
-            margin-top: 15px;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            background-color: #ffffff;
-            color: #004400;
-            border: 2px solid #00ff00;
-            border-radius: 5px;
-            cursor: pointer;
-            display: none;
-            /* Hidden by default */
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-        }
-
-        #launch-switch-btn:hover {
-            background-color: #00ff00;
-            color: black;
-        }
-
-        #launch-enter-btn:hover {
-            background-color: #ffffff;
-            color: #004400;
-        }
-    </style>
-
-    <div id="launch-overlay">
-        <div class="launch-message" id="pre-launch-msg">The New Version Will be launch in</div>
-        <div id="launch-timer">00d 00h 00m 00s</div>
-        <div class="launch-message" id="wait-msg" style="margin-top: 20px; color: #ffff00; font-size: 1.2rem;">Please
-            wait <span id="access-timer">20</span> seconds to use this page</div>
-        <div class="launch-message" id="post-launch-msg" style="display: none;">Use this site after this countdown
-            completion</div>
-        <button id="launch-enter-btn" onclick="dismissOverlay()">ENTER SITE</button>
-        <a id="launch-switch-btn" href="https://cgpa-rv1.onrender.com/">SWITCH TO NEW VERSION</a>
-    </div>
-
-    <script>
-        // Set the date we're counting down to (16 hours from implementation time: Jan 30, 2026 7:45 PM)
-        // Target: Jan 31, 2026 11:45:00 AM
-        const countDownDate = new Date("Jan 31, 2026 11:45:00").getTime();
-
-        const x = setInterval(function () {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Display result
-            document.getElementById("launch-timer").innerHTML = days + "d " + hours + "h " +
-                minutes + "m " + seconds + "s ";
-
-            // Append explicit message
-            document.getElementById("pre-launch-msg").innerHTML = "The New Version Will be launch in <br> countdown";
-
-            // If the count down is finished
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("launch-timer").innerHTML = "EXPIRED";
-                document.getElementById("pre-launch-msg").style.display = "none";
-                document.getElementById("wait-msg").style.display = "none"; // Hide wait msg if expired
-                document.getElementById("post-launch-msg").style.display = "block";
-                document.getElementById("launch-enter-btn").style.display = "inline-block";
-                document.getElementById("launch-switch-btn").style.display = "inline-block";
-
-                // Allow auto-hide or interaction
-                // The requirements said "inactive this function" after completion. 
-                // Showing the enter button allows user to deactivate the overlay.
-            }
-        }, 1000);
-
-        // 20-second access timer
-        let accessTime = 20;
-        const accessTimerInterval = setInterval(function () {
-            accessTime--;
-            if (document.getElementById("access-timer")) {
-                document.getElementById("access-timer").innerText = accessTime;
-            }
-
-            if (accessTime <= 0) {
-                clearInterval(accessTimerInterval);
-                dismissOverlay();
-            }
-        }, 1000);
-
-        function dismissOverlay() {
-            document.getElementById("launch-overlay").style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById("launch-overlay").style.display = 'none';
-            }, 1000);
-        }
     </script>
 </body>
 
