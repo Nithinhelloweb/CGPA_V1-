@@ -405,6 +405,27 @@
             box-shadow: 0 0 15px #00ff00;
         }
 
+        #launch-switch-btn {
+            margin-top: 15px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #ffffff;
+            color: #004400;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            /* Hidden by default */
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+        }
+
+        #launch-switch-btn:hover {
+            background-color: #00ff00;
+            color: black;
+        }
+
         #launch-enter-btn:hover {
             background-color: #ffffff;
             color: #004400;
@@ -419,6 +440,7 @@
         <div class="launch-message" id="post-launch-msg" style="display: none;">Use this site after this countdown
             completion</div>
         <button id="launch-enter-btn" onclick="dismissOverlay()">ENTER SITE</button>
+        <a id="launch-switch-btn" href="https://cgpa-rv1.onrender.com/">SWITCH TO NEW VERSION</a>
     </div>
 
     <script>
@@ -451,6 +473,7 @@
                 document.getElementById("wait-msg").style.display = "none"; // Hide wait msg if expired
                 document.getElementById("post-launch-msg").style.display = "block";
                 document.getElementById("launch-enter-btn").style.display = "inline-block";
+                document.getElementById("launch-switch-btn").style.display = "inline-block";
 
                 // Allow auto-hide or interaction
                 // The requirements said "inactive this function" after completion. 
